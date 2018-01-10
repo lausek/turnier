@@ -11,5 +11,9 @@ public class ControlFrame extends BasicFrame {
 	public ControlFrame(Control control) {
 		this.control = control;
 	}
+	
+	public Control getControl() {
+		return this.control;
+	}
 
 }
