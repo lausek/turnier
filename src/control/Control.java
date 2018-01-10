@@ -1,6 +1,7 @@
 package control;
 
 import view.main.ControlFrame;
+import view.main.components.ControlStart;
 import view.main.components.GameControl;
 
 public class Control {
@@ -13,8 +14,8 @@ public class Control {
 
 	public Control() {
 		cframe = new ControlFrame(this);
-//		cframe.switchTo(new ControlStart());
-		cframe.switchTo(new GameControl());
+		cframe.switchTo(new ControlStart());
+//		cframe.switchTo(new GameControl());
 	}
 	
 }

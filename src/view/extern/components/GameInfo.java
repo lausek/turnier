@@ -7,6 +7,7 @@ import view.FrameComponent;
 
 import view.extern.BasicExternFrame;
 
+@SuppressWarnings("serial")
 public class GameInfo extends FrameComponent {
 
 	@Override
