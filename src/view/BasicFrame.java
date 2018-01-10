@@ -31,7 +31,13 @@ public class BasicFrame extends JFrame {
 		current.enter();
 		
 		super.setContentPane(current);
+		redraw();
 
+	}
+	
+	public void redraw() {
+		revalidate();
+		repaint();
 	}
 
 }

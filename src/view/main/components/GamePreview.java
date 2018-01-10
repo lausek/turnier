@@ -60,8 +60,7 @@ public class GamePreview extends FrameComponent {
 			// }
 
 			imageIcon.setImage(image);
-			frame.revalidate();
-			frame.repaint();
+			frame.redraw();
 		}
 	}
 

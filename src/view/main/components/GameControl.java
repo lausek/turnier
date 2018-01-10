@@ -54,6 +54,7 @@ public class GameControl extends FrameComponent implements ActionListener {
 				selectedComponent.setFrame(frame);
 				
 				selectedComponent.enter();
+				frame.redraw();
 			}
 		});
 		add(tabbedPane, BorderLayout.CENTER);

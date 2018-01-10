@@ -1,7 +1,6 @@
 package control;
 
 import view.main.ControlFrame;
-import view.main.components.ControlStart;
 import view.main.components.GameControl;
 
 public class Control {
