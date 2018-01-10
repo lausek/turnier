@@ -2,17 +2,25 @@ package view;
 
 import javax.swing.JFrame;
 
+import control.Control;
+
 import java.awt.Container;
 
 @SuppressWarnings("serial")
 public class BasicFrame extends JFrame {
 	
-	private FrameComponent current;
+	protected Control control;
+	protected FrameComponent current;
 
 	public BasicFrame() {
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 600, 400);
+	}
+	
+	public BasicFrame(Control control) {
+		this();
+		this.control = control;
 	}
 	
 	@Override
@@ -40,4 +48,8 @@ public class BasicFrame extends JFrame {
 		repaint();
 	}
 
+	public Control getControl() {
+		return this.control;
+	}
+	
 }

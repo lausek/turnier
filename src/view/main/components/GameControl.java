@@ -16,7 +16,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 @SuppressWarnings("serial")
-public class GameControl extends FrameComponent implements ActionListener {
+public class GameControl extends FrameComponent implements ActionListener, ChangeListener {
 
 	protected BasicExternFrame externFrame;
 	protected FrameComponent selectedComponent;
@@ -24,42 +24,29 @@ public class GameControl extends FrameComponent implements ActionListener {
 	protected JButton cmdTimer;
 
 	public GameControl() {
-		setLayout(new BorderLayout(0, 0));
-
 		externFrame = new FullscreenFrame();
-
+		gameTimer = externFrame.getTimer();
+		
+		build();
+	}
+	
+	private void build() {
+		setLayout(new BorderLayout(0, 0));
 		JPanel panel = new JPanel();
 		add(panel, BorderLayout.SOUTH);
-
-		gameTimer = externFrame.getTimer();
 
 		cmdTimer = new JButton("Start");
 		cmdTimer.addActionListener(this);
 		panel.add(cmdTimer);
-
+			
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.addTab("Schedule", new GameSchedule());
+		tabbedPane.addTab("Players", new GamePlayers());
 		tabbedPane.addTab("Preview", new GamePreview(externFrame));
-		tabbedPane.addChangeListener(new ChangeListener() {
-			@Override
-			public void stateChanged(ChangeEvent evt) {
-				JTabbedPane pane = (JTabbedPane) evt.getSource();
-				
-				if(selectedComponent != null) {
-					selectedComponent.leave();
-				}
-				
-				selectedComponent = (FrameComponent) pane
-						.getSelectedComponent();
-				selectedComponent.setFrame(frame);
-				
-				selectedComponent.enter();
-				frame.redraw();
-			}
-		});
+		tabbedPane.addChangeListener(this);
 		add(tabbedPane, BorderLayout.CENTER);
 	}
-
+	
 	@Override
 	public void actionPerformed(ActionEvent evt) {
 		if (evt.getSource() == cmdTimer) {
@@ -68,6 +55,22 @@ public class GameControl extends FrameComponent implements ActionListener {
 		}
 	}
 
+	@Override
+	public void stateChanged(ChangeEvent evt) {
+		JTabbedPane pane = (JTabbedPane) evt.getSource();
+		
+		if(selectedComponent != null) {
+			selectedComponent.leave();
+		}
+		
+		selectedComponent = (FrameComponent) pane
+				.getSelectedComponent();
+		selectedComponent.setFrame(frame);
+		
+		selectedComponent.enter();
+		frame.redraw();
+	}
+	
 	public BasicExternFrame getScreen() {
 		return externFrame;
 	}

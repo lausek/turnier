@@ -13,7 +13,6 @@ import javax.swing.JFileChooser;
 
 import control.Turnier;
 import view.FrameComponent;
-import view.main.ControlFrame;
 
 @SuppressWarnings("serial")
 public class ControlStart extends FrameComponent implements ActionListener {
@@ -48,15 +47,19 @@ public class ControlStart extends FrameComponent implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent evt) {
 		if (evt.getSource() == cmdLoad) {
+			
 			JFileChooser chooser = new JFileChooser();
 			if (JFileChooser.APPROVE_OPTION == chooser.showOpenDialog(null)) {
 				try {
 					Turnier turnier = new Turnier(chooser.getSelectedFile().getPath());
-					((ControlFrame) frame).getControl().setTurnier(turnier);
+					
+					frame.getControl().setTurnier(turnier);
+					frame.switchTo(new GameControl());
 				} catch (IOException e) {
-
+					e.printStackTrace();
 				}
 			}
+			
 		} else if (evt.getSource() == cmdCreate) {
 
 		}

@@ -25,7 +25,7 @@ public class Turnier {
 			// TODO: file is corrupt
 		}
 		
-		// properties.load(new FileInputStream(fs.getPath(PROPERTIES_FILE));
+//		properties.load(Files.newInputStream(fs.getPath(PROPERTIES_FILE)));
 		
 	}
 	
