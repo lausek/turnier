@@ -1,22 +1,22 @@
-package view.components;
+package view.main.components;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.JLabel;
 
-import view.extern.BasicScreen;
+import view.BasicFrame;
 
 @SuppressWarnings("serial")
 public class GameTimer extends JLabel {
 	
 	private static final int DEFAULT_TIME = 60;
 	
-	private BasicScreen parent;
+	private BasicFrame parent;
 	private boolean running = false;
 	private int seconds;
 
-	public GameTimer(BasicScreen parent) {
+	public GameTimer(BasicFrame parent) {
 		this.parent = parent;
 		this.seconds = DEFAULT_TIME;
 		

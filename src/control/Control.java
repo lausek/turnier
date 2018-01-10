@@ -1,8 +1,8 @@
 package control;
 
-import view.ControlFrame;
-import view.components.ControlStart;
-import view.components.GameControl;
+import view.main.ControlFrame;
+import view.main.components.ControlStart;
+import view.main.components.GameControl;
 
 public class Control {
 	

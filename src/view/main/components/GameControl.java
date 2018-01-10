@@ -1,4 +1,4 @@
-package view.components;
+package view.main.components;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -7,30 +7,31 @@ import java.awt.event.ActionListener;
 import javax.swing.JPanel;
 import javax.swing.JButton;
 
-import view.extern.BasicScreen;
-import view.extern.FullScreen;
+import view.FrameComponent;
+import view.extern.BasicExternFrame;
+import view.extern.FullscreenFrame;
 
 import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 @SuppressWarnings("serial")
-public class GameControl extends ControlComponent implements ActionListener {
+public class GameControl extends FrameComponent implements ActionListener {
 
-	protected BasicScreen fscreen;
-	protected ControlComponent selectedComponent;
+	protected BasicExternFrame externFrame;
+	protected FrameComponent selectedComponent;
 	protected GameTimer gameTimer;
 	protected JButton cmdTimer;
 
 	public GameControl() {
 		setLayout(new BorderLayout(0, 0));
 
-		fscreen = new FullScreen();
+		externFrame = new FullscreenFrame();
 
 		JPanel panel = new JPanel();
 		add(panel, BorderLayout.SOUTH);
 
-		gameTimer = fscreen.getTimer();
+		gameTimer = externFrame.getTimer();
 
 		cmdTimer = new JButton("Start");
 		cmdTimer.addActionListener(this);
@@ -38,7 +39,7 @@ public class GameControl extends ControlComponent implements ActionListener {
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
 		tabbedPane.addTab("Schedule", new GameSchedule());
-		tabbedPane.addTab("Preview", new GamePreview(fscreen));
+		tabbedPane.addTab("Preview", new GamePreview(externFrame));
 		tabbedPane.addChangeListener(new ChangeListener() {
 			@Override
 			public void stateChanged(ChangeEvent evt) {
@@ -48,7 +49,7 @@ public class GameControl extends ControlComponent implements ActionListener {
 					selectedComponent.leave();
 				}
 				
-				selectedComponent = (ControlComponent) pane
+				selectedComponent = (FrameComponent) pane
 						.getSelectedComponent();
 				selectedComponent.setFrame(frame);
 				
@@ -66,8 +67,8 @@ public class GameControl extends ControlComponent implements ActionListener {
 		}
 	}
 
-	public BasicScreen getScreen() {
-		return fscreen;
+	public BasicExternFrame getScreen() {
+		return externFrame;
 	}
 
 }

@@ -1,22 +1,15 @@
 package view;
 
-import java.awt.Container;
-
 import javax.swing.JFrame;
 
-import view.components.ControlComponent;
-import control.Control;
+import java.awt.Container;
 
 @SuppressWarnings("serial")
-public class ControlFrame extends JFrame {
+public class BasicFrame extends JFrame {
+	
+	private FrameComponent current;
 
-	private Control control;
-	private ControlComponent current;
-
-	public ControlFrame(Control control) {
-
-		this.control = control;
-
+	public BasicFrame() {
 		setVisible(true);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(0, 0, 600, 400);
@@ -26,7 +19,7 @@ public class ControlFrame extends JFrame {
 	@Deprecated
 	public void setContentPane(Container arg0) { }
 	
-	public void switchTo(ControlComponent c) {
+	public void switchTo(FrameComponent c) {
 		
 		if (current != null) {
 			current.leave();

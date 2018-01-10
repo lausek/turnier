@@ -1,4 +1,4 @@
-package view.components;
+package view.main.components;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -8,19 +8,20 @@ import java.util.TimerTask;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import view.extern.BasicScreen;
+import view.BasicFrame;
+import view.FrameComponent;
 
 @SuppressWarnings("serial")
-public class GamePreview extends ControlComponent {
+public class GamePreview extends FrameComponent {
 
 	protected ImageIcon imageIcon;
-	protected BasicScreen fscreen;
+	protected BasicFrame fscreen;
 	protected boolean focused;
 
 	// TODO: remove
 	int count = 0;
 
-	public GamePreview(BasicScreen fscreen) {
+	public GamePreview(BasicFrame fscreen) {
 		this.fscreen = fscreen;
 
 		new Timer().scheduleAtFixedRate(new TimerTask() {

@@ -1,4 +1,4 @@
-package view.components;
+package view.main.components;
 
 import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
@@ -10,8 +10,10 @@ import javax.swing.JComponent;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 
+import view.FrameComponent;
+
 @SuppressWarnings("serial")
-public class ControlStart extends ControlComponent implements ActionListener {
+public class ControlStart extends FrameComponent implements ActionListener {
 	
 	protected JButton cmdCreate, cmdLoad;
 	
