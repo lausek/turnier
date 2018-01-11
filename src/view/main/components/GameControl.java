@@ -43,6 +43,8 @@ public class GameControl extends FrameComponent implements ActionListener, Chang
 		tabbedPane.addTab("Schedule", new GameSchedule());
 		tabbedPane.addTab("Players", new GamePlayers());
 		tabbedPane.addTab("Preview", new GamePreview(externFrame));
+		tabbedPane.addTab("Mixer", new GameMixer());
+		
 		tabbedPane.addChangeListener(this);
 		add(tabbedPane, BorderLayout.CENTER);
 	}
