@@ -8,7 +8,6 @@ public class DataProvider extends DataActor {
 		initializeSystem(filePath);
 	}
 
-
 	public static void main(String[] args) throws IOException {
 		new Turnier("C:\\Users\\wn00086506\\Downloads\\cup.zip");
 	}
