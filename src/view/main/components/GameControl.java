@@ -15,6 +15,8 @@ import javax.swing.JTabbedPane;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
+import control.Turnier;
+
 @SuppressWarnings("serial")
 public class GameControl extends FrameComponent implements ActionListener, ChangeListener {
 
@@ -23,9 +25,12 @@ public class GameControl extends FrameComponent implements ActionListener, Chang
 	protected GameTimer gameTimer;
 	protected JButton cmdTimer;
 
-	public GameControl() {
-		externFrame = new FullscreenFrame();
-		gameTimer = externFrame.getTimer();
+	protected Turnier turnier;
+
+	public GameControl(Turnier turnier) {
+		this.turnier = turnier;
+		this.externFrame = new FullscreenFrame();
+		this.gameTimer = externFrame.getTimer();
 		
 		build();
 	}
@@ -40,10 +45,10 @@ public class GameControl extends FrameComponent implements ActionListener, Chang
 		panel.add(cmdTimer);
 			
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.addTab("Schedule", new GameSchedule());
-		tabbedPane.addTab("Players", new GamePlayers());
-		tabbedPane.addTab("Preview", new GamePreview(externFrame));
-		tabbedPane.addTab("Mixer", new GameMixer());
+		tabbedPane.addTab("Schedule", new GameSchedule(this));
+		tabbedPane.addTab("Players", new GamePlayers(this));
+		tabbedPane.addTab("Preview", new GamePreview(this));
+		tabbedPane.addTab("Mixer", new GameMixer(this));
 		
 		tabbedPane.addChangeListener(this);
 		add(tabbedPane, BorderLayout.CENTER);
@@ -73,7 +78,7 @@ public class GameControl extends FrameComponent implements ActionListener, Chang
 		frame.redraw();
 	}
 	
-	public BasicExternFrame getScreen() {
+	public BasicExternFrame getExternFrame() {
 		return externFrame;
 	}
 

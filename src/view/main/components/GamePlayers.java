@@ -1,10 +1,12 @@
 package view.main.components;
 
-import view.FrameComponent;
+import view.main.GameFrameComponent;
 
 @SuppressWarnings("serial")
-public class GamePlayers extends FrameComponent {
+public class GamePlayers extends GameFrameComponent {
 
-	
-	
+	public GamePlayers(GameControl gameControl) {
+		super(gameControl);
+	}
+
 }

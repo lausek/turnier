@@ -53,8 +53,7 @@ public class ControlStart extends FrameComponent implements ActionListener {
 				try {
 					Turnier turnier = new Turnier(chooser.getSelectedFile().getPath());
 					
-					frame.getControl().setTurnier(turnier);
-					frame.switchTo(new GameControl());
+					frame.switchTo(new GameControl(turnier));
 				} catch (IOException e) {
 					e.printStackTrace();
 				}

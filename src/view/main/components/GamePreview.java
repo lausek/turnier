@@ -8,21 +8,19 @@ import java.util.TimerTask;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 
-import view.BasicFrame;
-import view.FrameComponent;
+import view.main.GameFrameComponent;
 
 @SuppressWarnings("serial")
-public class GamePreview extends FrameComponent {
+public class GamePreview extends GameFrameComponent {
 
 	protected ImageIcon imageIcon;
-	protected BasicFrame fscreen;
 	protected boolean focused;
 
 	// TODO: remove
 	int count = 0;
 
-	public GamePreview(BasicFrame fscreen) {
-		this.fscreen = fscreen;
+	public GamePreview(GameControl gameControl) {
+		super(gameControl);
 
 		new Timer().scheduleAtFixedRate(new TimerTask() {
 
@@ -37,17 +35,18 @@ public class GamePreview extends FrameComponent {
 
 		imageIcon = new ImageIcon();
 		add(new JLabel(imageIcon));
+		
 	}
 
 	public void update() {
-		int width = fscreen.getContentPane().getWidth();
-		int height = fscreen.getContentPane().getHeight();
+		int width = gameControl.getExternFrame().getContentPane().getWidth();
+		int height = gameControl.getExternFrame().getContentPane().getHeight();
 
 		if (0 < width && 0 < height) {
 			BufferedImage image = new BufferedImage(width, height,
 					BufferedImage.TYPE_INT_RGB);
 			Graphics2D graphics = image.createGraphics();
-			fscreen.paintAll(graphics);
+			gameControl.getExternFrame().paintAll(graphics);
 			
 			// try {
 			// if (javax.imageio.ImageIO.write(image, "png", new

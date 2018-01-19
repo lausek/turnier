@@ -1,7 +1,12 @@
 package view.main.components;
 
-import view.FrameComponent;
+import view.main.GameFrameComponent;
 
-public class GameMixer extends FrameComponent {
+@SuppressWarnings("serial")
+public class GameMixer extends GameFrameComponent {
+
+	public GameMixer(GameControl gameControl) {
+		super(gameControl);
+	}
 
 }

@@ -36,25 +36,25 @@ public class DataInitializer extends DataActor {
 	private void execute(String sql) throws SQLException, IOException {
 		getConnection().createStatement().execute(sql);
 	}
-	
+
 	private String toHexString(byte[] arr) {
 		String result = "";
-		for(int i = 0; i < arr.length; i++) {
+		for (int i = 0; i < arr.length; i++) {
 			result += Integer.toHexString(arr[i]);
 		}
 		return result;
 	}
-	
+
 	protected void addTeam(String name, String logoPath) throws SQLException, IOException, NoSuchAlgorithmException {
 		Path logo = Paths.get(logoPath);
 		MessageDigest imgHash = MessageDigest.getInstance("SHA");
 		imgHash.update(Files.readAllBytes(logo));
-		
+
 		// TODO: don't hardcode extension
 		String filename = toHexString(imgHash.digest()) + ".png";
 		Path packedFile = fs.getPath("/images/" + filename);
 		Files.copy(logo, packedFile);
-		
+
 		PreparedStatement stmt = getConnection().prepareStatement("INSERT INTO `Team` (`name`, `logo`) VALUES (?, ?)");
 		stmt.setString(1, name);
 		stmt.setString(2, filename);
@@ -63,34 +63,26 @@ public class DataInitializer extends DataActor {
 
 	protected void initializeDatabase() throws SQLException, IOException {
 
-		execute("CREATE TABLE IF NOT EXISTS `Team` (`name` VARCHAR(45) NULL, `logo` VARCHAR(45) NULL)");
+		execute("CREATE TABLE IF NOT EXISTS `Team` (`rowid` INTEGER NOT NULL, `name` VARCHAR(45) NULL, `logo` VARCHAR(45) NULL, PRIMARY KEY(`rowid`))");
 
-		execute("CREATE TABLE IF NOT EXISTS `Player` ("
-				+ "  `team_id` INT NOT NULL, `name` VARCHAR(45) NULL,"
-				+ "  `surname` VARCHAR(45) NULL, `number` VARCHAR(2) NULL,"
+		execute("CREATE TABLE IF NOT EXISTS `Player` (`rowid` INTEGER NOT NULL, `team_id` INT NOT NULL, `name` VARCHAR(45) NULL,"
+				+ "  `surname` VARCHAR(45) NULL, `number` VARCHAR(2) NULL, PRIMARY KEY(`rowid`),"
 				+ "  CONSTRAINT `fk_Player_Team` FOREIGN KEY (`team_id`)"
 				+ "    REFERENCES `Team` (`rowid`) ON DELETE NO ACTION ON UPDATE NO ACTION)");
 
-		execute("CREATE TABLE IF NOT EXISTS `GameType` (`name` VARCHAR(45) NULL, `length` INT NULL,"
-				+ "  `has_shootout` TINYINT(1) NULL, `has_overtime` TINYINT(1) NULL,"
-				+ "  `overtime` INT NULL)");
-
-		execute("CREATE TABLE IF NOT EXISTS `Game` (`gametype` INT NOT NULL, `home` VARCHAR(16) NULL,"
-				+ "  `guest` VARCHAR(16) NULL,"
-				+ "  CONSTRAINT `fk_Games_GameType1` FOREIGN KEY (`gametype`)"
-				+ "    REFERENCES `GameType` (`rowid`) ON DELETE NO ACTION"
-				+ "    ON UPDATE NO ACTION)");
+		execute("CREATE TABLE IF NOT EXISTS `EventType` (`rowid` INTEGER NOT NULL, `name` VARCHAR(45) NULL, `length` INT NULL,"
+				+ "  `is_game` TINYINT(1) NULL, `has_shootout` TINYINT(1) NULL, `has_overtime` TINYINT(1) NULL,"
+				+ "  `overtime` INT NULL, PRIMARY KEY(`rowid`))");
 
 		execute("CREATE TABLE IF NOT EXISTS `PlayerStatistic` (`player_id` INT NOT NULL,"
 				+ "  `goals` INT NULL, `assits` INT NULL,"
 				+ "  CONSTRAINT `fk_PlayerStatistic_Player1` FOREIGN KEY (`player_id`)"
-				+ "    REFERENCES `Player` (`rowid`) ON DELETE NO ACTION"
-				+ "    ON UPDATE NO ACTION)");
+				+ "    REFERENCES `Player` (`rowid`) ON DELETE NO ACTION" + "    ON UPDATE NO ACTION)");
 
-		execute("CREATE TABLE IF NOT EXISTS `Schedule` ("
-				+ "  `game_id` INT NOT NULL, `start` TIME NULL, `end` TIME NULL,"
+		execute("CREATE TABLE IF NOT EXISTS `Schedule` (`rowid` INTEGER NOT NULL, `eventtype_id` INT NOT NULL, "
+				+ " `start` TIME NULL, `end` TIME NULL, home VARCHAR(16), guest VARCHAR(16), note VARCHAR(45) NULL, PRIMARY KEY(`rowid`),"
 				+ " CONSTRAINT `fk_Schedule_Game1`"
-				+ "    FOREIGN KEY (`game_id`) REFERENCES `Game` (`rowid`) ON DELETE NO ACTION"
+				+ "    FOREIGN KEY (`eventtype_id`) REFERENCES `EventType` (`rowid`) ON DELETE NO ACTION"
 				+ "    ON UPDATE NO ACTION)");
 
 		execute("CREATE TABLE IF NOT EXISTS `Group` (`group` CHAR NOT NULL,"
@@ -98,10 +90,10 @@ public class DataInitializer extends DataActor {
 				+ "  CONSTRAINT `fk_Group_Team1` FOREIGN KEY (`team_id`)"
 				+ "    REFERENCES `Team` (`rowid`) ON DELETE NO ACTION ON UPDATE NO ACTION)");
 
-		execute("CREATE TABLE IF NOT EXISTS `Score` (`game_id` INT NOT NULL,"
+		execute("CREATE TABLE IF NOT EXISTS `Score` (`schedule_id` INT NOT NULL,"
 				+ "  `team_id` INT NOT NULL, `goals` INT NULL,"
-				+ "  PRIMARY KEY (`game_id`, `team_id`), CONSTRAINT `fk_Score_Games1`"
-				+ "    FOREIGN KEY (`game_id`) REFERENCES `Game` (`rowid`) ON DELETE NO ACTION"
+				+ "  PRIMARY KEY (`schedule_id`, `team_id`), CONSTRAINT `fk_Score_Games1`"
+				+ "    FOREIGN KEY (`schedule_id`) REFERENCES `Schedule` (`rowid`) ON DELETE NO ACTION"
 				+ "    ON UPDATE NO ACTION, CONSTRAINT `fk_Score_Team1`"
 				+ "    FOREIGN KEY (`team_id`) REFERENCES `Team` (`rowid`) ON DELETE NO ACTION"
 				+ "    ON UPDATE NO ACTION)");
