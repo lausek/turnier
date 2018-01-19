@@ -23,9 +23,10 @@ public class DataActor implements Closeable {
 
 	protected FileSystem fs;
 	protected Connection connection;
-	protected Path workingFolder, tempFolder, databaseFile, configFile;
+	protected Path workingFolder, tempFolder, imageFolder;
+	protected Path databaseFile, configFile;
 	protected boolean configChanged = false;
-	
+
 	protected void initializeSystem(String filePath) throws IOException {
 		Map<String, String> attributes = new HashMap<>();
 		attributes.put("create", "true");
@@ -34,16 +35,22 @@ public class DataActor implements Closeable {
 		workingFolder = Paths.get(filePath.replace('\\', '/'));
 		tempFolder = Paths.get(System.getProperty("java.io.tmpdir") + "/turnier/");
 
-		fs = FileSystems.newFileSystem(URI.create("jar:file:///" + workingFolder.toString().replace('\\', '/')), attributes);
+		fs = FileSystems.newFileSystem(URI.create("jar:file:///" + workingFolder.toString().replace('\\', '/')),
+				attributes);
 
 		if (!Files.isDirectory(tempFolder)) {
 			Files.createDirectory(tempFolder);
+		}
+		
+		imageFolder = fs.getPath("/images/");
+		if (!Files.isDirectory(imageFolder)) {
+			Files.createDirectory(imageFolder);
 		}
 
 		getConfig();
 		getDatabase();
 	}
-	
+
 	private Path loadResource(String path) throws IOException {
 		Path target = Paths.get(tempFolder + path);
 		Files.copy(fs.getPath(path), target, StandardCopyOption.REPLACE_EXISTING);
@@ -54,7 +61,7 @@ public class DataActor implements Closeable {
 		if (databaseFile == null) {
 			try {
 				databaseFile = loadResource(DATABASE_FILE_PATH);
-			} catch(NoSuchFileException e) {
+			} catch (NoSuchFileException e) {
 				Files.createFile(fs.getPath(DATABASE_FILE_PATH));
 				databaseFile = loadResource(DATABASE_FILE_PATH);
 			}
@@ -65,8 +72,8 @@ public class DataActor implements Closeable {
 	public Path getConfig() throws IOException {
 		if (configFile == null) {
 			try {
-				configFile = loadResource(CONFIG_FILE_PATH);				
-			} catch(NoSuchFileException e) {
+				configFile = loadResource(CONFIG_FILE_PATH);
+			} catch (NoSuchFileException e) {
 				Files.createFile(fs.getPath(CONFIG_FILE_PATH));
 				configFile = loadResource(CONFIG_FILE_PATH);
 			}
@@ -75,35 +82,35 @@ public class DataActor implements Closeable {
 	}
 
 	public Connection getConnection() throws SQLException, IOException {
-		if(connection == null) {
+		if (connection == null) {
 			connection = DriverManager.getConnection("jdbc:sqlite:file:///" + getDatabase());
 		}
 		return connection;
 	}
-	
+
 	protected void save() throws IOException {
-		if(configChanged) {
+		if (configChanged) {
 			Files.copy(configFile, fs.getPath(CONFIG_FILE_PATH), StandardCopyOption.REPLACE_EXISTING);
 		}
-		
-		if(databaseFile != null) {
+
+		if (databaseFile != null) {
 			Files.copy(databaseFile, fs.getPath(DATABASE_FILE_PATH), StandardCopyOption.REPLACE_EXISTING);
 		}
 	}
-	
+
 	@Override
 	public void close() throws IOException {
 		save();
-		
-		if(connection != null) {
+
+		if (connection != null) {
 			try {
 				connection.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
 		}
-		
+
 		fs.close();
 	}
-	
+
 }
