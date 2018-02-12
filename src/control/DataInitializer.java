@@ -140,15 +140,19 @@ public class DataInitializer extends DataActor {
 			d.getDatabase();
 			d.getConfig();
 			
-			d.addEvent("Gruppenspiel", 10, true, false, false, 0);
-			d.addEvent("Verlosung", 15, false, false, false, 0);
-			d.addEvent("Halbfinale", 12, true, true, true, 3);
-			d.addEvent("Finale", 12, true, true, true, 6);
+			d.addEvent("Gruppenspiel", 600, true, false, false, 0);
+			d.addEvent("Verlosung", 900, false, false, false, 0);
+			d.addEvent("Halbfinale", 720, true, true, true, 3);
+			d.addEvent("Finale", 720, true, true, true, 6);
 			
 			d.addScheduleItem(1, "10:00:00", "10:12:00", "team(1)", "team(2)", "");
-			d.addScheduleItem(1, "10:00:00", "10:12:00", "team(3)", "team(4)", "");
-			d.addScheduleItem(1, "10:00:00", "10:12:00", "team(1)", "team(5)", "");
-			d.addScheduleItem(1, "10:00:00", "10:12:00", "team(2)", "team(3)", "");
+			d.addScheduleItem(1, "10:14:00", "10:26:00", "team(3)", "team(4)", "");
+			d.addScheduleItem(2, "10:28:00", "10:43:00", "", "", "");
+			d.addScheduleItem(1, "10:45:00", "10:57:00", "team(1)", "team(5)", "");
+			d.addScheduleItem(1, "10:59:00", "11:11:00", "team(2)", "team(3)", "");
+			d.addScheduleItem(2, "11:13:00", "11:28:00", "", "", "");
+			d.addScheduleItem(4, "11:30:00", "11:50:00", "group(0)pos(1)", "group(0)pos(2)", "");
+			
 			
 			for (int i = 1; i <= 5; i++) {
 				d.addTeam("Jena " + i, "C:\\Users\\wn00086506\\Downloads\\turnier\\logos\\" + i + ".png");

@@ -34,6 +34,8 @@ public class GameTimer extends JLabel {
 							l.reached();
 						}
 					});
+				} else if(seconds == 0) {
+					setRunning(false);
 				}
 				update();
 			}
@@ -66,7 +68,9 @@ public class GameTimer extends JLabel {
 	}
 
 	public void setTime(int secs) {
-		this.seconds = secs;
+//		TODO: comment in!!
+//		this.seconds = secs;
+		this.seconds = 3;
 		setRunning(false);
 	}
 

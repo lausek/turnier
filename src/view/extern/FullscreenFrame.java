@@ -1,18 +1,35 @@
 package view.extern;
 
+import model.ScheduleItem;
 import view.extern.components.GameInfo;
 
 @SuppressWarnings("serial")
 public class FullscreenFrame extends BasicExternFrame implements Runnable {
 
+	protected GameInfo gameInfo;
+
 	public FullscreenFrame() {
-		switchTo(new GameInfo());
+		gameInfo = new GameInfo();
+		switchTo(gameInfo);
 	}
-	
+
 	@Override
-	protected void handle(TurnierEvent evt) {
-		switch (evt) {
+	protected void handle(EventParams evt) {
+		switch (evt.type) {
 		case START:
+			break;
+
+		case NEW_EVENT:
+			ScheduleItem scheduleItem = (ScheduleItem) evt.params;
+			
+			if(scheduleItem.getEventType().isGame()) {
+				gameInfo.setHomeTeam(scheduleItem.getHomeTeam());
+				gameInfo.setGuestTeam(scheduleItem.getGuestTeam());				
+			}
+			
+			break;
+
+		case GOAL:
 			break;
 
 		case END:
@@ -20,8 +37,8 @@ public class FullscreenFrame extends BasicExternFrame implements Runnable {
 				setVisible(false);
 			}
 			return;
-			
+
 		}
 	}
-	
+
 }

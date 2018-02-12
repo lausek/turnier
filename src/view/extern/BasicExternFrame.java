@@ -6,16 +6,17 @@ import java.util.concurrent.PriorityBlockingQueue;
 import javax.swing.JPanel;
 
 import view.BasicFrame;
+import view.extern.BasicExternFrame.TurnierEvent;
 import view.main.components.GameTimer;
 
 @SuppressWarnings("serial")
 public abstract class BasicExternFrame extends BasicFrame implements Runnable {
 
 	public enum TurnierEvent {
-		START, END
+		START, NEW_EVENT, GOAL, END
 	};
 
-	protected PriorityBlockingQueue<TurnierEvent> queue;
+	protected PriorityBlockingQueue<EventParams> queue;
 	protected GameTimer gameTimer;
 
 	public BasicExternFrame() {
@@ -32,7 +33,11 @@ public abstract class BasicExternFrame extends BasicFrame implements Runnable {
 	}
 
 	public void addEvent(TurnierEvent evt) {
-		this.queue.add(evt);
+		addEvent(evt, null);
+	}
+	
+	public void addEvent(TurnierEvent evt, Object params) {
+		this.queue.add(new EventParams(evt, params));
 	}
 
 	public GameTimer getTimer() {
@@ -41,7 +46,7 @@ public abstract class BasicExternFrame extends BasicFrame implements Runnable {
 
 	@Override
 	public void run() {
-		TurnierEvent next;
+		EventParams next;
 
 		for (;;) {
 			if ((next = queue.poll()) == null) {
@@ -53,6 +58,24 @@ public abstract class BasicExternFrame extends BasicFrame implements Runnable {
 
 	}
 
-	protected abstract void handle(TurnierEvent evt);
+	protected abstract void handle(EventParams evt);
 
+}
+
+class EventParams implements Comparable<EventParams> {
+	
+	public TurnierEvent type;
+	public Object params;
+	
+	public EventParams(TurnierEvent type, Object params) {
+		this.type = type;
+		this.params = params;
+	}
+
+	@Override
+	public int compareTo(EventParams other) {
+		// TODO: Add priority
+		return 0;
+	}
+	
 }

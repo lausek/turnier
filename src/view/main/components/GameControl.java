@@ -10,6 +10,7 @@ import javax.swing.JButton;
 
 import view.FrameComponent;
 import view.extern.BasicExternFrame;
+import view.extern.BasicExternFrame.TurnierEvent;
 import view.extern.FullscreenFrame;
 
 import javax.swing.JTabbedPane;
@@ -27,7 +28,7 @@ public class GameControl extends FrameComponent implements ActionListener, Chang
 	protected FrameComponent selectedComponent;
 	protected GameTimer gameTimer;
 	protected JPanel inGameShortcuts, postGameShortcuts;
-	protected JButton cmdTimer, cmdNext;
+	protected JButton cmdTimer, cmdNext, cmdShootout, cmdOvertime;
 
 	protected Turnier turnier;
 	protected ScheduleItem event;
@@ -47,6 +48,8 @@ public class GameControl extends FrameComponent implements ActionListener, Chang
 		this.gameTimer.addCountdownListener(new CountdownListener(0) {
 			@Override
 			public void reached() {
+				cmdOvertime.setEnabled(event.getEventType().hasOvertime());
+				cmdShootout.setEnabled(event.getEventType().hasShootout());
 				switchShortcuts(inGameShortcuts, postGameShortcuts);
 			}
 		});
@@ -61,6 +64,10 @@ public class GameControl extends FrameComponent implements ActionListener, Chang
 		postGameShortcuts = new JPanel();
 		cmdNext = new JButton("Next");
 		cmdNext.addActionListener(this);
+		cmdOvertime = new JButton("Overtime");
+		cmdOvertime.addActionListener(this);
+		cmdShootout = new JButton("Shootout");
+		cmdShootout.addActionListener(this);
 		postGameShortcuts.add(cmdNext);
 
 		inGameShortcuts = new JPanel();
@@ -88,6 +95,11 @@ public class GameControl extends FrameComponent implements ActionListener, Chang
 			gameTimer.setForeground(gameTimer.isRunning() ? Color.BLACK : Color.RED);
 		} else if (evt.getSource() == cmdNext) {
 			nextEvent();
+		} else if (evt.getSource() == cmdOvertime) {
+			gameTimer.setTime(event.getEventType().getOvertimeInSeconds());
+			switchShortcuts(postGameShortcuts, inGameShortcuts);
+		} else if (evt.getSource() == cmdShootout) {
+			
 		}
 	}
 
@@ -123,8 +135,14 @@ public class GameControl extends FrameComponent implements ActionListener, Chang
 		}
 
 		event = turnier.nextEvent();
-		gameTimer.setTime(event.getEventType().getLengthInSeconds());
-		switchShortcuts(postGameShortcuts, inGameShortcuts);
+		if(event != null) {
+			
+			externFrame.addEvent(TurnierEvent.NEW_EVENT, event);
+			
+			gameTimer.setTime(event.getEventType().getLengthInSeconds());
+			cmdTimer.setText(!gameTimer.isRunning() ? "Start" : "Pause");
+			switchShortcuts(postGameShortcuts, inGameShortcuts);			
+		}
 	}
 
 }

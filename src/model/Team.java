@@ -1,13 +1,19 @@
 package model;
 
 public class Team {
-
+	
+	private int id;
 	private String name, logo, group;
 	
-	public Team(String name, String logo) {
+	public Team(int id, String name, String logo) {
+		this.id = id;
 		this.name = name;
 		this.logo = logo;
 		this.group = "0";
+	}
+	
+	public int getId() {
+		return this.id;
 	}
 	
 	public void setGroup(String group) {

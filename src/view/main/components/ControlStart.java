@@ -53,7 +53,7 @@ public class ControlStart extends FrameComponent implements ActionListener {
 //			if (JFileChooser.APPROVE_OPTION == chooser.showOpenDialog(null)) {
 				try {
 //					Turnier turnier = new Turnier(chooser.getSelectedFile().getPath());
-					Turnier turnier = new Turnier("C:\\Users\\wn00086506\\Downloads\\turnier\\newcup095156.zip");
+					Turnier turnier = new Turnier("C:\\Users\\wn00086506\\Downloads\\turnier\\newcup140315.zip");
 					frame.switchTo(new GameControl(turnier));
 				} catch (IOException | SQLException e) {
 					e.printStackTrace();

@@ -29,11 +29,23 @@ public class EventType {
 	}
 	
 	public int getLengthInSeconds() {
-		return this.length * 60;
+		return this.length;
 	}
 	
 	public boolean isGame() {
 		return this.isGame;
+	}
+	
+	public boolean hasShootout() {
+		return this.hasShootout;
+	}
+	
+	public boolean hasOvertime() {
+		return this.hasOvertime;
+	}
+	
+	public int getOvertimeInSeconds() {
+		return this.overtime;
 	}
 	
 }
