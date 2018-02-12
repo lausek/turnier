@@ -32,6 +32,7 @@ public class Control extends FrameComponent implements ActionListener, ChangeLis
 
 	protected Turnier turnier;
 	protected ScheduleItem event;
+	protected Overview overview;
 
 	public Control(Turnier turnier) {
 		this.turnier = turnier;
@@ -78,6 +79,8 @@ public class Control extends FrameComponent implements ActionListener, ChangeLis
 		add(inGameShortcuts, BorderLayout.SOUTH);
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+		overview = new Overview(this);
+		tabbedPane.addTab("Overview", overview);
 		tabbedPane.addTab("Schedule", new Schedule(this));
 		tabbedPane.addTab("Players", new Players(this));
 		tabbedPane.addTab("Preview", new Preview(this));
@@ -137,7 +140,11 @@ public class Control extends FrameComponent implements ActionListener, ChangeLis
 		event = turnier.nextEvent();
 		if(event != null) {
 			
-			externFrame.addEvent(TurnierEvent.NEW_EVENT, event);
+			if(event.getEventType().isGame()) {
+				overview.addEvent(event);
+				
+				externFrame.addEvent(TurnierEvent.NEW_EVENT, event);
+			}			
 			
 			gameTimer.setTime(event.getEventType().getLengthInSeconds());
 			cmdTimer.setText(!gameTimer.isRunning() ? "Start" : "Pause");

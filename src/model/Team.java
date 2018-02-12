@@ -1,5 +1,11 @@
 package model;
 
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+
 public class Team {
 	
 	private int id;
@@ -14,6 +20,15 @@ public class Team {
 	
 	public int getId() {
 		return this.id;
+	}
+	
+	public Image getLogo() {
+		try {
+			return ImageIO.read(new File(logo));
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 	public void setGroup(String group) {
