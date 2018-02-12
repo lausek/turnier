@@ -4,6 +4,7 @@ import java.awt.BorderLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.swing.Box;
 import javax.swing.BoxLayout;
@@ -49,15 +50,15 @@ public class ControlStart extends FrameComponent implements ActionListener {
 		if (evt.getSource() == cmdLoad) {
 			
 			JFileChooser chooser = new JFileChooser();
-			if (JFileChooser.APPROVE_OPTION == chooser.showOpenDialog(null)) {
+//			if (JFileChooser.APPROVE_OPTION == chooser.showOpenDialog(null)) {
 				try {
-					Turnier turnier = new Turnier(chooser.getSelectedFile().getPath());
-					
+//					Turnier turnier = new Turnier(chooser.getSelectedFile().getPath());
+					Turnier turnier = new Turnier("C:\\Users\\wn00086506\\Downloads\\turnier\\newcup095156.zip");
 					frame.switchTo(new GameControl(turnier));
-				} catch (IOException e) {
+				} catch (IOException | SQLException e) {
 					e.printStackTrace();
 				}
-			}
+//			}
 			
 		} else if (evt.getSource() == cmdCreate) {
 

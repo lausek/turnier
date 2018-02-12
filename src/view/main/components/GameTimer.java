@@ -1,30 +1,39 @@
 package view.main.components;
 
+import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.JLabel;
 
+import control.CountdownListener;
 import view.BasicFrame;
 
 @SuppressWarnings("serial")
 public class GameTimer extends JLabel {
-	
-	private static final int DEFAULT_TIME = 60;
-	
+
+	private static final int DEFAULT_TIME = 3;
+
 	private BasicFrame parent;
 	private boolean running = false;
 	private int seconds;
 
+	private List<CountdownListener> listeners = new java.util.ArrayList<>(2);
+
 	public GameTimer(BasicFrame parent) {
 		this.parent = parent;
 		this.seconds = DEFAULT_TIME;
-		
+
 		new Timer(true).scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run() {
-				if(running && 0 < seconds) {
-					seconds--;				
+				if (running && 0 < seconds) {
+					seconds--;
+					listeners.forEach(l -> {
+						if (l.toReach == seconds) {
+							l.reached();
+						}
+					});
 				}
 				update();
 			}
@@ -39,21 +48,26 @@ public class GameTimer extends JLabel {
 		}
 
 		out += String.format("%02d", this.seconds % 60);
-		
+
 		setText(out);
 		parent.revalidate();
 	}
-	
+
+	public void addCountdownListener(CountdownListener listener) {
+		listeners.add(listener);
+	}
+
 	public void setRunning(boolean running) {
 		this.running = running;
 	}
-	
+
 	public boolean isRunning() {
 		return this.running;
 	}
 
 	public void setTime(int secs) {
 		this.seconds = secs;
+		setRunning(false);
 	}
 
 }

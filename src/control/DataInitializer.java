@@ -61,6 +61,37 @@ public class DataInitializer extends DataActor {
 		stmt.executeUpdate();
 	}
 
+	protected void addEvent(String name, int length, boolean isGame, boolean hasShootout, boolean hasOvertime, int overtime) throws SQLException, IOException {
+
+		PreparedStatement stmt = getConnection()
+				.prepareStatement("INSERT INTO `EventType` (`name`, `length`, `is_game`, `has_shootout`, `has_overtime`, `overtime`) VALUES (?,?,?,?,?,?)");
+		
+		stmt.setString(1, name);
+		stmt.setInt(2, length);
+		stmt.setBoolean(3, isGame);
+		stmt.setBoolean(4, hasShootout);
+		stmt.setBoolean(5, hasOvertime);
+		stmt.setInt(6, overtime);
+
+		stmt.executeUpdate();
+		
+	}
+	
+	protected void addScheduleItem(int eventType, String start, String end, String home, String guest, String note) throws SQLException, IOException {
+		
+		PreparedStatement stmt = getConnection().prepareStatement("INSERT INTO `Schedule` (`eventtype_id`, `start`, `end`, `home`, `guest`, `note`) VALUES (?,?,?,?,?,?)");
+		
+		stmt.setInt(1, eventType);
+		stmt.setString(2, start);
+		stmt.setString(3, end);
+		stmt.setString(4, home);
+		stmt.setString(5, guest);
+		stmt.setString(6, note);
+		
+		stmt.executeUpdate();
+		
+	}
+
 	protected void initializeDatabase() throws SQLException, IOException {
 
 		execute("CREATE TABLE IF NOT EXISTS `Team` (`rowid` INTEGER NOT NULL, `name` VARCHAR(45) NULL, `logo` VARCHAR(45) NULL, PRIMARY KEY(`rowid`))");
@@ -80,7 +111,7 @@ public class DataInitializer extends DataActor {
 				+ "    REFERENCES `Player` (`rowid`) ON DELETE NO ACTION" + "    ON UPDATE NO ACTION)");
 
 		execute("CREATE TABLE IF NOT EXISTS `Schedule` (`rowid` INTEGER NOT NULL, `eventtype_id` INT NOT NULL, "
-				+ " `start` TIME NULL, `end` TIME NULL, home VARCHAR(16), guest VARCHAR(16), note VARCHAR(45) NULL, PRIMARY KEY(`rowid`),"
+				+ " `start` VARCHAR(6) NULL, `end` VARCHAR(6) NULL, home VARCHAR(16), guest VARCHAR(16), note VARCHAR(45) NULL, PRIMARY KEY(`rowid`),"
 				+ " CONSTRAINT `fk_Schedule_Game1`"
 				+ "    FOREIGN KEY (`eventtype_id`) REFERENCES `EventType` (`rowid`) ON DELETE NO ACTION"
 				+ "    ON UPDATE NO ACTION)");
@@ -108,7 +139,17 @@ public class DataInitializer extends DataActor {
 					"C:\\Users\\wn00086506\\Downloads\\turnier\\newcup" + sdf.format(cal.getTime()) + ".zip");
 			d.getDatabase();
 			d.getConfig();
-
+			
+			d.addEvent("Gruppenspiel", 10, true, false, false, 0);
+			d.addEvent("Verlosung", 15, false, false, false, 0);
+			d.addEvent("Halbfinale", 12, true, true, true, 3);
+			d.addEvent("Finale", 12, true, true, true, 6);
+			
+			d.addScheduleItem(1, "10:00:00", "10:12:00", "team(1)", "team(2)", "");
+			d.addScheduleItem(1, "10:00:00", "10:12:00", "team(3)", "team(4)", "");
+			d.addScheduleItem(1, "10:00:00", "10:12:00", "team(1)", "team(5)", "");
+			d.addScheduleItem(1, "10:00:00", "10:12:00", "team(2)", "team(3)", "");
+			
 			for (int i = 1; i <= 5; i++) {
 				d.addTeam("Jena " + i, "C:\\Users\\wn00086506\\Downloads\\turnier\\logos\\" + i + ".png");
 			}

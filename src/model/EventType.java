@@ -19,4 +19,21 @@ public class EventType {
 		this.overtime = base.getInt("overtime");
 	}
 	
+	@Override
+	public String toString() {
+		return getName();
+	}
+	
+	public String getName() {
+		return this.name;
+	}
+	
+	public int getLengthInSeconds() {
+		return this.length * 60;
+	}
+	
+	public boolean isGame() {
+		return this.isGame;
+	}
+	
 }
