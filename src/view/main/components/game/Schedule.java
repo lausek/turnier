@@ -1,4 +1,4 @@
-package view.main.components;
+package view.main.components.game;
 
 import view.main.GameFrameComponent;
 import java.awt.BorderLayout;
@@ -11,19 +11,18 @@ import javax.swing.table.DefaultTableCellRenderer;
 
 import control.DataProvider;
 import model.EventType;
-import model.Schedule;
 
 @SuppressWarnings("serial")
-public class GameSchedule extends GameFrameComponent {
+public class Schedule extends GameFrameComponent {
 
 	private JTable scheduleTable;
 
-	public GameSchedule(GameControl gameControl) {
+	public Schedule(Control gameControl) {
 		super(gameControl);
 		setLayout(new BorderLayout(0, 0));
 		
 		Object[] columnNames = { "Type", "Group", "Start", "End", "Note", "Home", "Guest" };
-		Schedule schedule = gameControl.turnier.getSchedule();
+		model.Schedule schedule = gameControl.turnier.getSchedule();
 		
 		scheduleTable = new JTable(schedule.getCells(), columnNames);
 		scheduleTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {

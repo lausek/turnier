@@ -14,6 +14,7 @@ import javax.swing.JFileChooser;
 
 import control.Turnier;
 import view.FrameComponent;
+import view.main.components.game.Control;
 
 @SuppressWarnings("serial")
 public class ControlStart extends FrameComponent implements ActionListener {
@@ -54,7 +55,7 @@ public class ControlStart extends FrameComponent implements ActionListener {
 				try {
 //					Turnier turnier = new Turnier(chooser.getSelectedFile().getPath());
 					Turnier turnier = new Turnier("C:\\Users\\wn00086506\\Downloads\\turnier\\newcup140315.zip");
-					frame.switchTo(new GameControl(turnier));
+					frame.switchTo(new Control(turnier));
 				} catch (IOException | SQLException e) {
 					e.printStackTrace();
 				}

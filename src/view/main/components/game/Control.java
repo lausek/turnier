@@ -1,4 +1,4 @@
-package view.main.components;
+package view.main.components.game;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
@@ -22,18 +22,18 @@ import control.Turnier;
 import model.ScheduleItem;
 
 @SuppressWarnings("serial")
-public class GameControl extends FrameComponent implements ActionListener, ChangeListener {
+public class Control extends FrameComponent implements ActionListener, ChangeListener {
 
 	protected BasicExternFrame externFrame;
 	protected FrameComponent selectedComponent;
-	protected GameTimer gameTimer;
+	protected Timer gameTimer;
 	protected JPanel inGameShortcuts, postGameShortcuts;
 	protected JButton cmdTimer, cmdNext, cmdShootout, cmdOvertime;
 
 	protected Turnier turnier;
 	protected ScheduleItem event;
 
-	public GameControl(Turnier turnier) {
+	public Control(Turnier turnier) {
 		this.turnier = turnier;
 		this.externFrame = new FullscreenFrame();
 		this.gameTimer = externFrame.getTimer();
@@ -78,10 +78,10 @@ public class GameControl extends FrameComponent implements ActionListener, Chang
 		add(inGameShortcuts, BorderLayout.SOUTH);
 
 		JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
-		tabbedPane.addTab("Schedule", new GameSchedule(this));
-		tabbedPane.addTab("Players", new GamePlayers(this));
-		tabbedPane.addTab("Preview", new GamePreview(this));
-		tabbedPane.addTab("Mixer", new GameMixer(this));
+		tabbedPane.addTab("Schedule", new Schedule(this));
+		tabbedPane.addTab("Players", new Players(this));
+		tabbedPane.addTab("Preview", new Preview(this));
+		tabbedPane.addTab("Mixer", new Mixer(this));
 
 		tabbedPane.addChangeListener(this);
 		add(tabbedPane, BorderLayout.CENTER);

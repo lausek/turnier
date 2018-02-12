@@ -1,4 +1,4 @@
-package view.main.components;
+package view.main.components.game;
 
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import view.main.GameFrameComponent;
 
 @SuppressWarnings("serial")
-public class GamePreview extends GameFrameComponent {
+public class Preview extends GameFrameComponent {
 
 	protected ImageIcon imageIcon;
 	protected boolean focused;
@@ -19,7 +19,7 @@ public class GamePreview extends GameFrameComponent {
 	// TODO: remove
 	int count = 0;
 
-	public GamePreview(GameControl gameControl) {
+	public Preview(Control gameControl) {
 		super(gameControl);
 
 		new Timer().scheduleAtFixedRate(new TimerTask() {

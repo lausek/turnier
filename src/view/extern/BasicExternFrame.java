@@ -7,7 +7,7 @@ import javax.swing.JPanel;
 
 import view.BasicFrame;
 import view.extern.BasicExternFrame.TurnierEvent;
-import view.main.components.GameTimer;
+import view.main.components.game.Timer;
 
 @SuppressWarnings("serial")
 public abstract class BasicExternFrame extends BasicFrame implements Runnable {
@@ -17,14 +17,14 @@ public abstract class BasicExternFrame extends BasicFrame implements Runnable {
 	};
 
 	protected PriorityBlockingQueue<EventParams> queue;
-	protected GameTimer gameTimer;
+	protected Timer gameTimer;
 
 	public BasicExternFrame() {
 		this.queue = new PriorityBlockingQueue<>();
 
 		setAlwaysOnTop(true);
 
-		gameTimer = new GameTimer(this);
+		gameTimer = new Timer(this);
 
 		JPanel contentPane = new JPanel();
 		getContentPane().add(contentPane, BorderLayout.CENTER);
@@ -40,7 +40,7 @@ public abstract class BasicExternFrame extends BasicFrame implements Runnable {
 		this.queue.add(new EventParams(evt, params));
 	}
 
-	public GameTimer getTimer() {
+	public Timer getTimer() {
 		return gameTimer;
 	}
 

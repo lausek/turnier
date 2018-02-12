@@ -1,7 +1,6 @@
-package view.main.components;
+package view.main.components.game;
 
 import java.util.List;
-import java.util.Timer;
 import java.util.TimerTask;
 
 import javax.swing.JLabel;
@@ -10,7 +9,7 @@ import control.CountdownListener;
 import view.BasicFrame;
 
 @SuppressWarnings("serial")
-public class GameTimer extends JLabel {
+public class Timer extends JLabel {
 
 	private static final int DEFAULT_TIME = 3;
 
@@ -20,11 +19,11 @@ public class GameTimer extends JLabel {
 
 	private List<CountdownListener> listeners = new java.util.ArrayList<>(2);
 
-	public GameTimer(BasicFrame parent) {
+	public Timer(BasicFrame parent) {
 		this.parent = parent;
 		this.seconds = DEFAULT_TIME;
 
-		new Timer(true).scheduleAtFixedRate(new TimerTask() {
+		new java.util.Timer(true).scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run() {
 				if (running && 0 < seconds) {

@@ -9,7 +9,6 @@ import model.Ranking;
 import model.RankingItem;
 import model.Schedule;
 import model.ScheduleItem;
-import model.Team;
 
 public class Turnier {
 
