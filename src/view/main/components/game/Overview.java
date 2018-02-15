@@ -2,7 +2,6 @@ package view.main.components.game;
 
 import view.main.GameFrameComponent;
 
-import javax.imageio.ImageIO;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JPanel;
