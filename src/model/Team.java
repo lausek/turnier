@@ -1,15 +1,24 @@
 package model;
 
 import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
 import javax.imageio.ImageIO;
 
+import control.DataProvider;
+
 public class Team {
+	
+	private static Image standardImage;
 	
 	private int id;
 	private String name, logo, group;
+	
+	static {
+		standardImage = new BufferedImage(128, 128, BufferedImage.TYPE_INT_ARGB);
+	}
 	
 	public Team(int id, String name, String logo) {
 		this.id = id;
@@ -24,10 +33,11 @@ public class Team {
 	
 	public Image getLogo() {
 		try {
-			return ImageIO.read(new File(logo));
+			java.nio.file.Path path = DataProvider.get().getImage(logo);
+			return ImageIO.read(path.toFile());
 		} catch (IOException e) {
 			e.printStackTrace();
-			return null;
+			return standardImage;
 		}
 	}
 	

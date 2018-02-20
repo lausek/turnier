@@ -10,6 +10,7 @@ import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.nio.file.attribute.FileAttribute;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -41,11 +42,15 @@ public class DataActor implements Closeable {
 		if (!Files.isDirectory(tempFolder)) {
 			Files.createDirectory(tempFolder);
 		}
-		
+
 		imageFolder = fs.getPath("/images/");
 		if (!Files.isDirectory(imageFolder)) {
 			Files.createDirectory(imageFolder);
 		}
+
+		try {
+			Files.createDirectory(Paths.get(tempFolder + "/images/"));
+		} catch(IOException e) { }
 
 		getConfig();
 		getDatabase();
@@ -55,6 +60,10 @@ public class DataActor implements Closeable {
 		Path target = Paths.get(tempFolder + path);
 		Files.copy(fs.getPath(path), target, StandardCopyOption.REPLACE_EXISTING);
 		return target;
+	}
+
+	public Path getImage(String name) throws IOException {
+		return loadResource("/images/" + name);
 	}
 
 	public Path getDatabase() throws IOException {
