@@ -41,6 +41,7 @@ public class Control extends FrameComponent implements ActionListener, ChangeLis
 		this.gameTimer.addCountdownListener(new CountdownListener(60) {
 			@Override
 			public void reached() {
+				// TODO: interesting for mixer
 				System.out.println("Letzte Minute!");
 			}
 		});
