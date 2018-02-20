@@ -22,10 +22,8 @@ public class FullscreenFrame extends BasicExternFrame implements Runnable {
 		case NEW_EVENT:
 			ScheduleItem scheduleItem = (ScheduleItem) evt.params;
 			
-			if(scheduleItem.getEventType().isGame()) {
-				gameInfo.setHomeTeam(scheduleItem.getHomeTeam());
-				gameInfo.setGuestTeam(scheduleItem.getGuestTeam());				
-			}
+			gameInfo.setHomeTeam(scheduleItem.getHomeTeam());
+			gameInfo.setGuestTeam(scheduleItem.getGuestTeam());	
 			
 			break;
 
