@@ -10,7 +10,6 @@ import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.nio.file.attribute.FileAttribute;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -31,7 +30,7 @@ public class DataActor implements Closeable {
 	protected void initializeSystem(String filePath) throws IOException {
 		Map<String, String> attributes = new HashMap<>();
 		attributes.put("create", "true");
-
+		
 		// shpx jvaqbjf
 		workingFolder = Paths.get(filePath.replace('\\', '/'));
 		tempFolder = Paths.get(System.getProperty("java.io.tmpdir") + "/turnier/");

@@ -21,7 +21,7 @@ public class Schedule extends GameFrameComponent {
 		super(gameControl);
 		setLayout(new BorderLayout(0, 0));
 		
-		Object[] columnNames = { "Type", "Group", "Start", "End", "Note", "Home", "Guest" };
+		Object[] columnNames = { "#", "Type", "Group", "Start", "End", "Note", "Home", "Guest", "Stand" };
 		model.Schedule schedule = gameControl.turnier.getSchedule();
 		
 		scheduleTable = new JTable(schedule.getCells(), columnNames);
@@ -29,8 +29,9 @@ public class Schedule extends GameFrameComponent {
 			public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus,
 					int row, int column) {
 				Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-				// TODO: EventType not always at column 0!
-				EventType eventType = (EventType)table.getValueAt(row, 0);
+				// TODO: EventType not always at column 1!
+				// TODO: Double click on line triggers this too. instanceof check needed
+				EventType eventType = (EventType)table.getValueAt(row, 1);
 				if (DataProvider.get().getTurnier().getCurrentScheduleItem() == row) {
 					c.setBackground(Color.GREEN);
 				} else if (eventType != null && !eventType.isGame()) {
