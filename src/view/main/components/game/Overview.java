@@ -10,6 +10,7 @@ import model.ScheduleItem;
 
 import javax.swing.JLabel;
 
+@SuppressWarnings("serial")
 public class Overview extends GameFrameComponent {
 
 	protected JLabel lbHomeTeam, lbGuestTeam;
