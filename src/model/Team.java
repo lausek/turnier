@@ -34,7 +34,7 @@ public class Team {
 	public Image getLogo() {
 		try {
 			java.nio.file.Path path = DataProvider.get().getImage(logo);
-			return ImageIO.read(path.toFile());
+			return ImageIO.read(path.toFile()).getScaledInstance(64, 64, Image.SCALE_SMOOTH);
 		} catch (IOException e) {
 			e.printStackTrace();
 			return standardImage;
