@@ -25,7 +25,11 @@ public class ScheduleItem {
 
 		update();
 	}
-
+	
+	public int getId() {
+		return this.id;
+	}
+	
 	public RankingItem getHomeTeam() {
 		return DataProvider.get().getTurnier().executeTeamSelect(homeQuery);
 	}

@@ -15,26 +15,42 @@ public class Turnier {
 	private DataProvider dataProvider;
 	private Ranking ranking;
 	private String filepath;
-	private int currentScheduleItem;
+	private ScheduleItem currentScheduleItem;
+	private int currentScheduleIndex;
 
 	public Turnier(String filepath) throws IOException, SQLException {
 		this.filepath = filepath;
 		this.dataProvider = DataProvider.newInstance(this);
 		this.ranking = dataProvider.getInitialRanking();
-		this.currentScheduleItem = -1;
+		this.currentScheduleIndex = -1;
 	}
-
+	
 	public String getFilepath() {
 		return this.filepath;
 	}
-
-	public int getCurrentScheduleItem() {
+	
+	public int getCurrentScheduleIndex() {
+		return this.currentScheduleIndex;
+	}
+	
+	public ScheduleItem getCurrentScheduleItem() {
 		return this.currentScheduleItem;
 	}
-
+	
+	private void saveGame() {
+		if (currentScheduleItem != null && currentScheduleItem.getEventType().isGame()) {
+			// TODO: change score here
+			dataProvider.setGame(currentScheduleItem, 0, 0);
+		}
+	}
+	
 	public ScheduleItem nextEvent() {
-		if (currentScheduleItem < dataProvider.getSchedule().getItems().size() - 1) {
-			return dataProvider.getSchedule().getItems().get(++currentScheduleItem);
+		// TODO: save game here
+		saveGame();
+		
+		if (currentScheduleIndex < dataProvider.getSchedule().getItems().size() - 1) {
+			this.currentScheduleItem = dataProvider.getSchedule().getItems().get(++currentScheduleIndex);
+			return currentScheduleItem;
 		}
 		return null;
 	}

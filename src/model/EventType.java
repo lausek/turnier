@@ -19,6 +19,10 @@ public class EventType {
 		this.overtime = base.getInt("overtime");
 	}
 	
+	public int getId() {
+		return this.id;
+	}
+	
 	@Override
 	public String toString() {
 		return getName();

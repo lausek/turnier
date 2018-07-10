@@ -10,11 +10,11 @@ public abstract class Ranking {
 	public Ranking() {
 		groups = new HashMap<>();
 	}
-	
+
 	public RankingItem getTeam(int id) {
-		for(List<RankingItem> group : groups.values()) {
-			for(RankingItem item : group) {
-				if(item.getTeam().getId() == id) {
+		for (List<RankingItem> group : groups.values()) {
+			for (RankingItem item : group) {
+				if (item.getTeam().getId() == id) {
 					return item;
 				}
 			}
@@ -29,13 +29,13 @@ public abstract class Ranking {
 		team.setGroup(group);
 		groups.get(group).add(new RankingItem(team));
 	}
-	
+
 	public void add(String group, List<Team> teams) {
 		teams.forEach(team -> {
 			add(group, team);
 		});
 	}
-	
+
 	public HashMap<String, List<RankingItem>> getGroups() {
 		return groups;
 	}

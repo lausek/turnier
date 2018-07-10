@@ -31,7 +31,6 @@ public class Control extends FrameComponent implements ActionListener, ChangeLis
 	protected JButton cmdTimer, cmdNext, cmdShootout, cmdOvertime;
 
 	protected Turnier turnier;
-	protected ScheduleItem event;
 	protected Overview overview;
 
 	public Control(Turnier turnier) {
@@ -50,8 +49,8 @@ public class Control extends FrameComponent implements ActionListener, ChangeLis
 		this.gameTimer.addCountdownListener(new CountdownListener(0) {
 			@Override
 			public void reached() {
-				cmdOvertime.setEnabled(event.getEventType().hasOvertime());
-				cmdShootout.setEnabled(event.getEventType().hasShootout());
+				cmdOvertime.setEnabled(turnier.getCurrentScheduleItem().getEventType().hasOvertime());
+				cmdShootout.setEnabled(turnier.getCurrentScheduleItem().getEventType().hasShootout());
 				switchShortcuts(inGameShortcuts, postGameShortcuts);
 			}
 		});
@@ -100,10 +99,10 @@ public class Control extends FrameComponent implements ActionListener, ChangeLis
 		} else if (evt.getSource() == cmdNext) {
 			nextEvent();
 		} else if (evt.getSource() == cmdOvertime) {
-			gameTimer.setTime(event.getEventType().getOvertimeInSeconds());
+			gameTimer.setTime(turnier.getCurrentScheduleItem().getEventType().getOvertimeInSeconds());
 			switchShortcuts(postGameShortcuts, inGameShortcuts);
 		} else if (evt.getSource() == cmdShootout) {
-			
+
 		}
 	}
 
@@ -132,24 +131,20 @@ public class Control extends FrameComponent implements ActionListener, ChangeLis
 		revalidate();
 		repaint();
 	}
-
+	
 	protected void nextEvent() {
-		if (event != null && event.getEventType().isGame()) {
-			// TODO: save game to database
-		}
+		ScheduleItem event = turnier.nextEvent();
+		if (event != null) {
 
-		event = turnier.nextEvent();
-		if(event != null) {
-			
-			if(event.getEventType().isGame()) {
+			if (event.getEventType().isGame()) {
 				overview.addEvent(event);
-				
+
 				externFrame.addEvent(TurnierEvent.NEW_EVENT, event);
-			}			
-			
+			}
+
 			gameTimer.setTime(event.getEventType().getLengthInSeconds());
 			cmdTimer.setText(!gameTimer.isRunning() ? "Start" : "Pause");
-			switchShortcuts(postGameShortcuts, inGameShortcuts);			
+			switchShortcuts(postGameShortcuts, inGameShortcuts);
 		}
 	}
 

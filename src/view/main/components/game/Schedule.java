@@ -23,7 +23,7 @@ public class Schedule extends GameFrameComponent {
 
 		Object[] columnNames = { "#", "Type", "Group", "Start", "End", "Note", "Home", "Guest", "Stand" };
 		model.Schedule schedule = gameControl.turnier.getSchedule();
-
+		
 		scheduleTable = new JTable(schedule.getCells(), columnNames);
 		scheduleTable.getTableHeader().setReorderingAllowed(false);
 		scheduleTable.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
@@ -31,7 +31,7 @@ public class Schedule extends GameFrameComponent {
 					boolean hasFocus, int row, int column) {
 				Component c = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
 				EventType eventType = (EventType) table.getValueAt(row, 1);
-				if (DataProvider.get().getTurnier().getCurrentScheduleItem() == row) {
+				if (DataProvider.get().getTurnier().getCurrentScheduleIndex() == row) {
 					c.setBackground(Color.GREEN);
 				} else if (eventType != null && !eventType.isGame()) {
 					c.setBackground(Color.YELLOW);

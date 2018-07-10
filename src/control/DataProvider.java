@@ -1,12 +1,14 @@
 package control;
 
 import java.io.IOException;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
 import model.Ranking;
 import model.Schedule;
+import model.ScheduleItem;
 import model.Team;
 
 public class DataProvider extends DataActor {
@@ -45,7 +47,25 @@ public class DataProvider extends DataActor {
 		}
 
 	}
-
+	
+	public void setGame(ScheduleItem event, int home, int guest) {
+		// TODO: check if entry already exists and execute update if so
+		try {
+			PreparedStatement stmt = getConnection().prepareStatement("INSERT INTO `Score` VALUES (?, ?, ?)");
+			
+			stmt.setInt(1, event.getId());
+			stmt.setInt(2, event.getHomeTeam().getTeam().getId());
+			stmt.setInt(3, home);
+			stmt.execute();
+			
+			stmt.setInt(2, event.getGuestTeam().getTeam().getId());
+			stmt.setInt(3, guest);
+			stmt.execute();
+		} catch (SQLException | IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public Turnier getTurnier() {
 		return turnier;
 	}
